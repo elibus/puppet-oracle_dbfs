@@ -1,0 +1,16 @@
+{
+  "name": "elibus-oracle_dbfs",
+  "version": "0.1.0",
+  "author": "Marco Tizzoni",
+  "summary": "Configure Oracle DBFS",
+  "license": "Apache 2.0",
+  "source": "https://github.com/elibus/puppet-oracle_dbs",
+  "project_page": "https://github.com/elibus/puppet-oracle_dbs",
+  "issues_url": "https://github.com/elibus/puppet-oracle_dbs/issues",
+  "dependencies": [
+    {
+      "name": "puppetlabs-stdlib",
+      "version_requirement": ">= 1.0.0"
+    }
+  ]
+}
