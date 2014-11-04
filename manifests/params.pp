@@ -4,9 +4,11 @@
 # It sets variables according to platform
 #
 class oracle_dbfs::params (
+  $conn_string = undef,
   $mount_point = undef,
-  $conn_string = '',
-  $mount_opts = $::oradb::client::mount_opts,
+  $mount_opts = 'rw,user,noauto',
+  $configure_fstab = false,
+  $oracle_dbfs::params::user_allow_other = true,
   $tns_admin_dir = '$CDPATH',
   $oracle_user = $::oradb::client::oracle_user,
   $oracle_group = $::oradb::client::oracle_group,

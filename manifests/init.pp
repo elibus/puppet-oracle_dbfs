@@ -8,10 +8,12 @@
 #   Explanation of what this parameter affects and what it defaults to.
 #
 class oracle_dbfs (
-  $mount_point = undef,
-  $conn_string = '',
-  $mount_opts = 'rw,user,noauto',
-  $tns_admin_dir = '$CDPATH',
+  $conn_string = $::oradb::params::conn_string,
+  $mount_point = $::oradb::params::mount_point,
+  $mount_opts = $::oradb::params::mount_opts,
+  $configure_fstab = $::oradb::params::configure_fstab,
+  $oracle_dbfs::user_allow_other = $oracle_dbfs::params::user_allow_other,
+  $tns_admin_dir = $::oradb::params::tns_admin_dir,
   $user = $::oradb::client::user,
   $group = $::oradb::client::group,
   $oracle_base = $::oradb::client::oracleBase,
@@ -21,9 +23,10 @@ class oracle_dbfs (
   include oradb::client
 
   # validate parameters here
-  validate_absolute_path($mount_point)
   validate_string($conn_string)
-  validate_string($opts)
+  validate_absolute_path($mount_point)
+  validate_string($mount_opts)
+  validate_boolean($configure_fstab)
   validate_absolute_path($tns_admin_dir)
   validate_string($user)
   validate_string($group)

@@ -3,9 +3,6 @@
 # This class is called from oracle_dbfs
 #
 class oracle_dbfs::config {
-  Exec {
-    path => '/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:'
-  }
 
   file { '/usr/local/lib64/libfuse.so':
     ensure  => link,
@@ -53,9 +50,18 @@ class oracle_dbfs::config {
     ensure => link,
   }
 
-  file_line { 'sudo_rule':
-    path => '/etc/fstab',
-    line => "/sbin/mount.dbfs#/@${oracle_dbfs::conn_string} ${oracle_dbfs::mount_point} ${oracle_dbfs::params::fuse_group} rw,user,noauto 0 0",
+  if ( $oracle_dbfs::user_allow_other ) {
+    file_line { 'fuse user_allow_other':
+      path => '/etc/fuse.conf',
+      line => "user_allow_other",
+    }
+  }
+
+  if ( $oracle_dbfs::configure_fstab ) {
+    file_line { 'fstab_rule':
+      path => '/etc/fstab',
+      line => "/sbin/mount.dbfs#/@${oracle_dbfs::conn_string} ${oracle_dbfs::mount_point} ${oracle_dbfs::params::fuse_group} rw,user,noauto 0 0",
+    }
   }
 
   User <| title == $oracle_client::oracle_user |> { groups +> $oracle_dbfs::params::fuse_group }
