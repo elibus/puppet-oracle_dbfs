@@ -36,6 +36,8 @@ describe 'oracle_dbfs' do
         it { should contain_file('/etc/oracle/dbfs/environment')
           .with_ensure('file')
           .with_content(/TNS_ADMIN="\/etc\/oracle\/dbfs\/admin"/) }
+        it { should contain_file('/etc/oracle/dbfs/dbfs_mount.sh')
+          .with_ensure('file') }
         it { should contain_file('/etc/oracle/dbfs').with_ensure('directory') }
         it { should contain_file('/etc/oracle/dbfs/admin').with_ensure('directory') }
         it { should contain_file('/etc/oracle/dbfs/wallet').with_ensure('directory') }

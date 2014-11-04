@@ -10,17 +10,10 @@ class oracle_dbfs::service {
   }
 
   exec { 'mount oracle_dbfs':
-    command     => ". ${oracle_dbfs::config_dir}/environment; \
-      ${oracle_dbfs::oracle_home}/bin/dbfs_client \
-      ${oracle_dbfs::mount_opts}  \
-      ${oracle_dbfs::conn_string} \
-      ${oracle_dbfs::mount_point}",
-    environment => [
-
-    ],
-    refresh     => "cat /proc/mounts | cut -f2 -d \" \" | grep ${oracle_dbfs::mount_point} > /dev/null",
-    require     => Exec['umount oracle_dbfs'],
-    logoutput   => true,
+    command   => "${oracle_dbfs::config_dir}/dbfs_mount.sh",
+    refresh   => "cat /proc/mounts | cut -f2 -d \" \" | grep ${oracle_dbfs::mount_point} > /dev/null",
+    require   => Exec['umount oracle_dbfs'],
+    logoutput => true,
   }
 
   exec { 'umount oracle_dbfs':

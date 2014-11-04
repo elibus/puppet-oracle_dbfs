@@ -92,6 +92,14 @@ class oracle_dbfs::config {
     content => template('oracle_dbfs/environment.erb'),
   }
 
+file { "${oracle_dbfs::config_dir}/dbfs_mount.sh" :
+    ensure  => file,
+    owner   => $oracle_dbfs::user,
+    group   => $oracle_dbfs::group,
+    mode    => '0775',
+    content => template('oracle_dbfs/dbfs_mount.sh.erb'),
+  }
+
   exec { 'mkdir_p config_dir':
     command => "mkdir -p ${oracle_dbfs::config_dir}",
     creates => $oracle_dbfs::config_dir,
