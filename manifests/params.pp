@@ -6,19 +6,24 @@
 class oracle_dbfs::params (
   $conn_string = undef,
   $mount_point = undef,
-  $mount_opts = 'rw,user,noauto',
-  $configure_fstab = false,
-  $oracle_dbfs::params::user_allow_other = true,
-  $tns_admin_dir = '$CDPATH',
-  $oracle_user = $::oradb::client::oracle_user,
-  $oracle_group = $::oradb::client::oracle_group,
-  $oracle_base = $::oradb::client::oracle_base,
-  $oracle_home = $::oradb::client::oracle_home,
+  $cwallet_content = undef,
+  $ewallet_content = undef,
+  $tnsnames = undef,
+  $sqlnet = undef,
+  $mount_opts = '-o rw -o user -o noauto',
+  $cwallet = '/etc/oracle/dbfs/wallet/cwallet.sso',
+  $ewallet = '/etc/oracle/dbfs/wallet/ewallet.p12',
+  $user_allow_other = true,
+  $tns_admin_dir = '/etc/oracle/dbfs/admin',
+  $user = 'oracle',
+  $group = 'dba',
+  $oracle_base = '/usr/ora11g/app/oracle',
+  $oracle_home = '/usr/ora11g/app/oracle/product/11.2.0.4/client',
 )
 {
   case $::osfamily {
     'RedHat': {
-      $fuse_package_name = 'libfuse'
+      $fuse_package_name = [ 'fuse', 'fuse-libs' ]
       $fuse_group = 'fuse'
     }
     default: {
@@ -28,10 +33,10 @@ class oracle_dbfs::params (
 
   case $::architecture {
     'x86_64': {
-      $libdir = 'lib64'
+      $libdir = '/lib64'
     }
     'i686': {
-      $libdir = 'lib'
+      $libdir = '/lib'
     }
     default: {
       fail("${::architecture} architecture not supported")
