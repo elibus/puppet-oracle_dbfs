@@ -11,12 +11,10 @@ class oracle_dbfs (
   $conn_string = $oradb::params::conn_string,
   $mount_point = $oradb::params::mount_point,
   $mount_opts = $oradb::params::mount_opts,
-  $cwallet = $oracle_dbfs::params::cwallet,
-  $ewallet = $oracle_dbfs::params::ewallet,
-  $cwallet_content = $oracle_dbfs::params::cwallet_content,
-  $ewallet_content = $oracle_dbfs::params::ewallet_content,
+  $cwallet = $oracle_dbfs::params::cwallet_content,
+  $ewallet = $oracle_dbfs::params::ewallet_content,
   $user_allow_other = $oracle_dbfs::params::user_allow_other,
-  $tns_admin_dir = $oracle_dbfs::params::tns_admin_dir,
+  $config_dir = $oracle_dbfs::params::config_dir,
   $tnsnames = $oracle_dbfs::params::tnsnames,
   $sqlnet = $oracle_dbfs::params::sqlnet,
   $user = $oracle_dbfs::params::user,
@@ -29,9 +27,8 @@ class oracle_dbfs (
   validate_string($conn_string)
   validate_absolute_path($mount_point)
   validate_string($mount_opts)
-  validate_absolute_path($cwallet)
-  validate_absolute_path($ewallet)
-  validate_absolute_path($tns_admin_dir)
+  validate_absolute_path($config_dir)
+  validate_bool($user_allow_other)
   validate_string($user)
   validate_string($group)
   validate_absolute_path($oracle_base)

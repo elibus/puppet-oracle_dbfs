@@ -8,10 +8,9 @@ describe 'oracle_dbfs' do
           :conn_string      => 'dbfs_user@DBFS',
           :mount_point      => '/mnt/dbfs',
           :mount_opts       => '-o wallet -o rw -o allow_other',
-          :configure_fstab  => true,
           :user_allow_other => true,
-          :ewallet_content  => 'ewallet content',
-          :cwallet_content  => 'cwallet content',
+          :ewallet          => 'ewallet content',
+          :cwallet          => 'cwallet content',
           :tnsnames         => 'tnsnames content',
           :sqlnet           => 'sqlnet content',
         }}
@@ -29,18 +28,21 @@ describe 'oracle_dbfs' do
         it { should contain_class('oracle_dbfs::service').that_subscribes_to('oracle_dbfs::config') }
 
         it { should contain_exec('create /etc/fuse.conf') }
-        it { should contain_exec('/etc/oracle/dbfs/wallet').that_comes_before('File[/etc/oracle/dbfs/wallet]') }
+        it { should contain_exec('mkdir_p config_dir').that_comes_before('File[/etc/oracle/dbfs]') }
         it { should contain_file('/etc/oracle/dbfs/wallet/cwallet.sso').with_ensure('file') }
         it { should contain_file('/etc/oracle/dbfs/wallet/ewallet.p12').with_ensure('file') }
         it { should contain_file('/etc/oracle/dbfs/admin/tnsnames.ora').with_ensure('file') }
         it { should contain_file('/etc/oracle/dbfs/admin/sqlnet.ora').with_ensure('file') }
+        it { should contain_file('/etc/oracle/dbfs/environment')
+          .with_ensure('file')
+          .with_content(/TNS_ADMIN="\/etc\/oracle\/dbfs\/admin"/) }
+        it { should contain_file('/etc/oracle/dbfs').with_ensure('directory') }
         it { should contain_file('/etc/oracle/dbfs/admin').with_ensure('directory') }
         it { should contain_file('/etc/oracle/dbfs/wallet').with_ensure('directory') }
         it { should contain_file('/mnt/dbfs').with_ensure('directory') }
         it { should contain_file('/usr/local/lib64/libfuse.so').with_ensure('link') }
 
         it { should contain_file_line('fuse user_allow_other') }
-        it { should contain_file_line('fstab_rule') }
 
         it { should contain_package('fuse') }
         it { should contain_package('fuse-libs') }

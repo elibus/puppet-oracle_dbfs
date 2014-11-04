@@ -1,15 +1,9 @@
+
 ORACLE_BASE=<%= @oracle_base %>
 ORACLE_HOME=<%= @oracle_home %>
 PATH=$ORACLE_HOME/bin:/usr/X11R6/bin:/usr/local/bin:/bin:/usr/bin:/usr/sbin:/sbin
 CDPATH=.:$ORACLE_BASE/admin:$ORACLE_HOME:$ORACLE_HOME/network/admin
 LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib64:/lib:/usr/lib:/usr/lib64:/usr/local/lib
-TNS_ADMIN="<%= @tns_admin_dir %>"
-
-ORA_DBUSER=<%= @user %>
-ORA_DBFS_MOUNT=<%= @mount_point %>
-ORA_DBFS_CONNSTRING=<%= @conn_string %>
-ORA_DBFS_OPTS="<%= @mount_opts %>"
-ORA_DBFS_PROG="$ORACLE_HOME/bin/dbfs_client"
-
+TNS_ADMIN="<%= @config_dir %>/admin"
 
 export ORACLE_BASE ORACLE_HOME PATH CDPATH LD_LIBRARY_PATH TNS_ADMIN

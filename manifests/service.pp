@@ -10,18 +10,13 @@ class oracle_dbfs::service {
   }
 
   exec { 'mount oracle_dbfs':
-    command     => " \
-      export ORACLE_BASE ORACLE_HOME CDPATH LD_LIBRARY_PATH TNS_ADMIN; \
+    command     => ". ${oracle_dbfs::config_dir}/environment; \
       ${oracle_dbfs::oracle_home}/bin/dbfs_client \
       ${oracle_dbfs::mount_opts}  \
       ${oracle_dbfs::conn_string} \
       ${oracle_dbfs::mount_point}",
     environment => [
-      "ORACLE_BASE=${oracle_dbfs::oracle_base}",
-      "ORACLE_HOME=${oracle_dbfs::oracle_home}",
-      "CDPATH=${oracle_dbfs::oracle_base}/admin:${oracle_dbfs::oracle_home}:${oracle_dbfs::oracle_home}/network/admin",
-      "LD_LIBRARY_PATH=${oracle_dbfs::oracle_home}/lib:/lib64:/lib:/usr/lib:/usr/lib64:/usr/local/lib",
-      "TNS_ADMIN=${oracle_dbfs::tns_admin_dir}"
+
     ],
     refresh     => "cat /proc/mounts | cut -f2 -d \" \" | grep ${oracle_dbfs::mount_point} > /dev/null",
     require     => Exec['umount oracle_dbfs'],
