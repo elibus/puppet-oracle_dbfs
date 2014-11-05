@@ -45,12 +45,9 @@ describe 'oracle_dbfs' do
         it { should contain_file('/etc/sysconfig/oracle_dbfs')
           .with_content(/TNS_ADMIN="\/etc\/oracle\/dbfs\/admin"/) }
 
-        it { should contain_concat('/etc/sysconfig/oracle_dbfs.mounts')
-          .with_ensure('present') }
-        it { should contain_concat__fragment('Add header in /etc/sysconfig/oracle_dbfs.mounts')
-          .with_content(/puppet/) }
-        it { should contain_concat__fragment('Add /mnt/dbfs in /etc/sysconfig/oracle_dbfs.mounts')
-          .with_content(/\/mnt\/dbfs/) }
+        it { should contain_concat('/etc/sysconfig/oracle_dbfs.mounts').with_ensure('present') }
+        it { should contain_concat__fragment('Add header in /etc/sysconfig/oracle_dbfs.mounts').with_content(/puppet/) }
+        it { should contain_concat__fragment('Add /mnt/dbfs in /etc/sysconfig/oracle_dbfs.mounts').with_content(/\/mnt\/dbfs/) }
         it { should contain_file('/etc/oracle/dbfs').with_ensure('directory') }
         it { should contain_file('/etc/oracle/dbfs/admin').with_ensure('directory') }
         it { should contain_file('/etc/oracle/dbfs/wallet').with_ensure('directory') }
