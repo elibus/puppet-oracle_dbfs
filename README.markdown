@@ -45,6 +45,7 @@ This module requires:
 ###Beginning with oracle_dbfs
 
 This is a simpe use of the modules:
+
       include oracle_dbfs {
         user        => 'oracle',
         group       => 'dba',
@@ -60,7 +61,6 @@ This is a simpe use of the modules:
             'mount_point' => '/mnt/dbfs',
           },
         }
-
       }
 
 To take the most out of this module I recommend using hiera + the hiera-file backend.
