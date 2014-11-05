@@ -16,13 +16,6 @@ class oracle_dbfs::config {
     target => "${oracle_dbfs::params::libdir}/libfuse.so.2"
   }
 
-  file { $oracle_dbfs::mount_point :
-    ensure => directory,
-    owner  => $oracle_dbfs::user,
-    group  => $oracle_dbfs::group,
-    mode   => '0755'
-  }
-
   file { "${wallet_dir}/ewallet.p12" :
     ensure  => file,
     owner   => $oracle_dbfs::user,
@@ -84,26 +77,31 @@ class oracle_dbfs::config {
     }
   }
 
-  file { "${oracle_dbfs::config_dir}/environment" :
-    ensure  => file,
-    owner   => $oracle_dbfs::user,
-    group   => $oracle_dbfs::group,
-    mode    => '0775',
-    content => template('oracle_dbfs/environment.erb'),
-  }
-
-file { "${oracle_dbfs::config_dir}/dbfs_mount.sh" :
-    ensure  => file,
-    owner   => $oracle_dbfs::user,
-    group   => $oracle_dbfs::group,
-    mode    => '0775',
-    content => template('oracle_dbfs/dbfs_mount.sh.erb'),
-  }
-
   exec { 'mkdir_p config_dir':
     command => "mkdir -p ${oracle_dbfs::config_dir}",
     creates => $oracle_dbfs::config_dir,
   }
+
+  file { "${oracle_dbfs::params::sysconfigdir}/${oracle_dbfs::service_name}" :
+    content => template('oracle_dbfs/oracle_dbfs-sysconfig.erb'),
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
+  }
+
+  concat { "${oracle_dbfs::params::sysconfigdir}/oracle_dbfs.mounts":
+    mode  => '0644',
+    owner => 'root',
+    group => 'root',
+  }
+
+  concat::fragment { "Add header in ${oracle_dbfs::params::sysconfigdir}/oracle_dbfs.mounts":
+    target  => "${oracle_dbfs::params::sysconfigdir}/oracle_dbfs.mounts",
+    content => "#This file is managed by puppet!\n",
+    order   => '01',
+  }
+
+  create_resources('oracle_dbfs::mount', $oracle_dbfs::mounts)
 
   User <| title == $oracle_dbfs::user |> { groups +> $oracle_dbfs::params::fuse_group }
 }

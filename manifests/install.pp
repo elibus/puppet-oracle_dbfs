@@ -13,4 +13,12 @@ class oracle_dbfs::install {
     unless  => 'test -f /etc/fuse.conf'
   }
 
+  file { $oracle_dbfs::params::initscript :
+    ensure  => file,
+    source  => 'puppet:///modules/oracle_dbfs/oracle_dbfs-init.sh',
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
+  }
+
 }
