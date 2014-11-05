@@ -86,7 +86,7 @@ class oracle_dbfs::config {
     content => template('oracle_dbfs/oracle_dbfs-sysconfig.erb'),
     owner   => 'root',
     group   => 'root',
-    mode    => '0755',
+    mode    => '0644',
   }
 
   concat { "${oracle_dbfs::params::sysconfigdir}/oracle_dbfs.mounts":
