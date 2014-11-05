@@ -13,35 +13,85 @@
 
 ##Overview
 
-A one-maybe-two sentence summary of what the module does/what problem it solves. This is your 30 second elevator pitch for your module. Consider including OS/Puppet version it works with.       
+This module configure the Oracle DBFS as a Unix Service on RHEL 6 systems (should work on 7 in compatibility)
 
 ##Module Description
 
-If applicable, this section should have a brief description of the technology the module integrates with and what that integration enables. This section should answer the questions: "What does this module *do*?" and "Why would I use it?"
+This module configure Oracle DBFS as a service and mount all defined remote file systems at boot.
+This is particularly useful as Oracle does not provide a way to automount DBFS (do not refer to the Oracle
+DBFS documentation because what's declared is NOT working)
 
-If your module has a range of functionality (installation, configuration, management, etc.) this is the time to mention it.
 
 ##Setup
 
 ###What oracle_dbfs affects
 
-* A list of files, packages, services, or operations that the module will alter, impact, or execute on the system it's installed on.
-* This is a great place to stick any warnings.
-* Can be in list or paragraph form. 
+This is what this module will alter:
+* Create `/etc/sysconfig/oracle_dbfs`
+* Create `/etc/sysconfig/oracle_dbfs.mounts` a fstab like file for your mounts
+* Create `/etc/init.d/oracle_dbfs`, chkconfig on the service and ensure it is running
+* Add the oracle user to the fuse group
+* Ensure packages `fuse, fuse-libs` are installed
+* touch `/etc/fuse.conf` and (if configured) ensure `allow_other` option is present
+* Create `/etc/oracle/dbfs/{admin,wallet}` where to store `tnsnames.ora,sqlnet.ora` and wallet files
+* Create any required mount point with owner oracle and related group (as configured)
 
-###Setup Requirements **OPTIONAL**
 
-If your module requires anything extra before setting up (pluginsync enabled, etc.), mention it here. 
+###Setup Requirements
+
+This module requires:
+* Oracle client is installed and working. You might want to try this module for installing the client: https://forge.puppetlabs.com/biemond/oradb
 
 ###Beginning with oracle_dbfs
 
-The very basic steps needed for a user to get the module up and running. 
+This is a simpe use of the modules:
+      include oracle_dbfs {
+        user        => 'oracle',
+        group       => 'dba',
+        oracle_base => '/usr/ora11g/app/oracle',
+        oracle_home => '/usr/ora11g/app/oracle/product/11.2.0.4/client',
+        ewallet     => 'ewallet content',
+        cwallet     => 'cwallet content',
+        tnsnames    => 'tnsnames content',
+        sqlnet      => 'sqlnet content',
+        mounts      => {
+          '/mnt/dbfs' => {
+            'conn_string' => 'dbfs@DBFS',
+            'mount_point' => '/mnt/dbfs',
+          },
+        }
 
-If your most recent release breaks compatibility or requires particular steps for upgrading, you may wish to include an additional section here: Upgrading (For an example, see http://forge.puppetlabs.com/puppetlabs/firewall).
+      }
+
+To take the most out of this module I recommend using hiera + the hiera-file backend.
+This is an example using hiera:
+
+      include oracle_dbfs
+
+Hiera config file:
+
+      ---
+      oracle_dbfs:
+        user:             'oracle'
+        group:            'dba'
+        oracle_base:      '/usr/ora11g/app/oracle'
+        oracle_home:      '/usr/ora11g/app/oracle/product/11.2.0.4/client'
+        config_dir:       '/etc/oracle/dbfs'
+        user_allow_other: true
+        mounts:
+          '/mnt/oradbfs'
+            conn_string: 'dbfs_user@DBFS'
+            mount_point: '/mnt/oradbfs'
+            mount_opts:  'waller,rw,allow_other'
+          '/mnt/anotheroradbfs'
+            conn_string: 'dbfs_user@DBFS'
+            mount_point: '/mnt/anotheroradbfs'
+            mount_opts:  'waller,rw,allow_other'
+
 
 ##Usage
 
-Put the classes, types, and resources for customizing, configuring, and doing the fancy stuff with your module here. 
+Put the classes, types, and resources for customizing, configuring, and doing the fancy stuff with your module here.
 
 ##Reference
 
@@ -57,4 +107,4 @@ Since your module is awesome, other users will want to play with it. Let them kn
 
 ##Release Notes/Contributors/Etc **Optional**
 
-If you aren't using changelog, put your release notes here (though you should consider using changelog). You may also add any additional sections you feel are necessary or important to include here. Please use the `## ` header. 
+If you aren't using changelog, put your release notes here (though you should consider using changelog). You may also add any additional sections you feel are necessary or important to include here. Please use the `## ` header.
