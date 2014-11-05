@@ -62,6 +62,18 @@ This is a simpe use of the modules:
         }
       }
 
+Defaults:
+
+| Option          | Defaults to                                     | Description                                             |
+|------------------|------------------------------------------------|---------------------------------------------------------|
+| user_allow_other | true                                           | puts in /etc/fuse.conf                                  |
+| config_dir       | /etc/oracle/dbfs                               | Where to store wallet and tnsnames/sqlnet.ora files     |
+| user             | oracle                                         | Self explanatory                                        |
+| group            | dba                                            | Self explanatory                                        |
+| oracle_base      | /usr/ora11g/app/oracle                         | Self explanatory                                        |
+| oracle_home      | /usr/ora11g/app/oracle/product/11.2.0.4/client | Self explanatory                                        |
+| service_name     | oracle_dbfs                                    | Self explanatory                                        |
+
 ##Usage
 
 
