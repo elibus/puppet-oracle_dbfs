@@ -7,7 +7,6 @@
     * [Setup requirements](#setup-requirements)
     * [Beginning with oracle_dbfs](#beginning-with-oracle_dbfs)
 4. [Usage - Configuration options and additional functionality](#usage)
-5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
 5. [Limitations - OS compatibility, etc.](#limitations)
 6. [Development - Guide for contributing to the module](#development)
 
@@ -63,6 +62,9 @@ This is a simpe use of the modules:
         }
       }
 
+##Usage
+
+
 To take the most out of this module I recommend using hiera + the hiera-file backend.
 This is an example using hiera:
 
@@ -88,10 +90,14 @@ Hiera config file:
             mount_point: '/mnt/anotheroradbfs'
             mount_opts:  'waller,rw,allow_other'
 
+Then somewhere under your hiera hierarchy creates the following files:
 
-##Usage
+      /etc/puppet/data/hiera/common:
+        oracle_dbfs::cwallet
+        oracle_dbfs::ewallet
+        oracle_dbfs::tnsnames
+        oracle_dbfs::sqlnet
 
-Put the classes, types, and resources for customizing, configuring, and doing the fancy stuff with your module here.
 
 ##Reference
 
@@ -99,12 +105,9 @@ Here, list the classes, types, providers, facts, etc contained in your module. T
 
 ##Limitations
 
-This is where you list OS compatibility, version compatibility, etc.
+This module has been tested only on RHEL 6. It should work on RHEL 7 and Centos.
 
 ##Development
 
 Since your module is awesome, other users will want to play with it. Let them know what the ground rules for contributing are.
 
-##Release Notes/Contributors/Etc **Optional**
-
-If you aren't using changelog, put your release notes here (though you should consider using changelog). You may also add any additional sections you feel are necessary or important to include here. Please use the `## ` header.

@@ -8,3 +8,4 @@ description   ''
 project_page  'https://github.com/elibus/puppet-oracle_dbs'
 
 dependency 'puppetlabs/stdlib'
+dependency 'puppetlabs/concat'
