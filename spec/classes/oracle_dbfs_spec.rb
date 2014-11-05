@@ -42,8 +42,7 @@ describe 'oracle_dbfs' do
         it { should contain_file('/etc/oracle/dbfs/admin/sqlnet.ora').with_ensure('file') }
         it { should contain_file('/etc/sysconfig/oracle_dbfs.mounts') }
         it { should contain_file('/etc/init.d/oracle_dbfs') }
-        it { should contain_file('/etc/sysconfig/oracle_dbfs')
-          .with_content(/TNS_ADMIN="\/etc\/oracle\/dbfs\/admin"/) }
+        it { should contain_file('/etc/sysconfig/oracle_dbfs').with_content(/TNS_ADMIN="\/etc\/oracle\/dbfs\/admin"/) }
 
         it { should contain_concat('/etc/sysconfig/oracle_dbfs.mounts').with_ensure('present') }
         it { should contain_concat__fragment('Add header in /etc/sysconfig/oracle_dbfs.mounts').with_content(/puppet/) }
