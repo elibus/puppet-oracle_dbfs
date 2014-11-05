@@ -23,6 +23,6 @@ define oracle_dbfs::mount (
   concat::fragment { "Add ${mount_point} in ${oracle_dbfs::params::sysconfigdir}/oracle_dbfs.mounts":
     target  => "${oracle_dbfs::params::sysconfigdir}/oracle_dbfs.mounts",
     content => "${conn_string} ${mount_point} ${mount_opts}\n",
-    order => '10',
+    order   => '10',
   }
 }
