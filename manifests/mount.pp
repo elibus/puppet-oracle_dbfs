@@ -4,7 +4,7 @@
 define oracle_dbfs::mount (
   $conn_string = undef,
   $mount_point = undef,
-  $mount_opts = 'rw,user,noauto',
+  $mount_opts = 'wallet,rw,allow_other',
 )
 {
   validate_string($conn_string)
