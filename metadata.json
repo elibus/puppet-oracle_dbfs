@@ -39,6 +39,10 @@
     {
       "name": "puppet",
       "version_requirement": ">= 3.5"
+    },
+    {
+      "name": "puppet",
+      "version_requirement": ">= 2.7"
     }
   ]
 }
