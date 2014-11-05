@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/elibus/puppet-oracle_webgate.svg?branch=master)](https://travis-ci.org/elibus/puppet-oracle_webgate)
 ####Table of Contents
 
 1. [Overview](#overview)
