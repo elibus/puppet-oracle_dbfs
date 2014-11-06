@@ -1,3 +1,6 @@
-YYYY-MM-DD Release 0.1.0
-- something you did
-- something else you did
+2014-11-06 Release 0.1.1
+- Fix missing export for TNS_ADMIN
+
+2014-11-05 Release 0.1.0
+- First release
+
