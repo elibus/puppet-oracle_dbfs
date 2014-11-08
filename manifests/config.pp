@@ -11,9 +11,14 @@ class oracle_dbfs::config {
   $admin_dir = "${oracle_dbfs::config_dir}/admin"
   $wallet_dir = "${oracle_dbfs::config_dir}/wallet"
 
-  file { '/usr/local/lib64/libfuse.so':
+  file { "/usr/local/${oracle_dbfs::params::libdir}/libfuse.so":
     ensure => link,
     target => "${oracle_dbfs::params::libdir}/libfuse.so.2"
+  }
+
+  exec { 'Exec ldconfig after libfuse.so link':
+    command => 'ldconfig',
+    require => File["/usr/local/${oracle_dbfs::params::libdir}/libfuse.so"]
   }
 
   file { "${wallet_dir}/ewallet.p12" :

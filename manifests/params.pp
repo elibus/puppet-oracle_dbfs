@@ -32,10 +32,10 @@ class oracle_dbfs::params (
 
   case $::architecture {
     'x86_64': {
-      $libdir = '/lib64'
+      $libdir = 'lib64'
     }
     'i686': {
-      $libdir = '/lib'
+      $libdir = 'lib'
     }
     default: {
       fail("${::architecture} architecture not supported")

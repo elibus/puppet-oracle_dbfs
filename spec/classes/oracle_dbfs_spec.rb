@@ -36,6 +36,7 @@ describe 'oracle_dbfs' do
         it { should contain_exec('create /etc/fuse.conf') }
         it { should contain_exec('mkdir_p /mnt/dbfs') }
         it { should contain_exec('mkdir_p config_dir').that_comes_before('File[/etc/oracle/dbfs]') }
+        it { should contain_exec('Exec ldconfig after libfuse.so link') }
         it { should contain_file('/etc/oracle/dbfs/wallet/cwallet.sso').with_ensure('file') }
         it { should contain_file('/etc/oracle/dbfs/wallet/ewallet.p12').with_ensure('file') }
         it { should contain_file('/etc/oracle/dbfs/admin/tnsnames.ora').with_ensure('file') }
@@ -50,7 +51,7 @@ describe 'oracle_dbfs' do
         it { should contain_file('/etc/oracle/dbfs').with_ensure('directory') }
         it { should contain_file('/etc/oracle/dbfs/admin').with_ensure('directory') }
         it { should contain_file('/etc/oracle/dbfs/wallet').with_ensure('directory') }
-        it { should contain_file('/usr/local/lib64/libfuse.so').with_ensure('link') }
+        it { should contain_file('/usr/local/lib64/libfuse.so').with_ensure('link').that_comes_before('Exec[Exec ldconfig after libfuse.so link]') }
 
         it { should contain_file_line('fuse user_allow_other') }
 
