@@ -13,7 +13,7 @@ class oracle_dbfs::config {
 
   file { "/usr/local/${oracle_dbfs::params::libdir}/libfuse.so":
     ensure => link,
-    target => "${oracle_dbfs::params::libdir}/libfuse.so.2"
+    target => "/${oracle_dbfs::params::libdir}/libfuse.so.2"
   }
 
   exec { 'Exec ldconfig after libfuse.so link':

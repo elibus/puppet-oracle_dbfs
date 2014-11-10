@@ -1,3 +1,9 @@
+2014-11-06 Release 0.1.3
+- Fix template adding Oracle User
+
+2014-11-06 Release 0.1.2
+- Add ldconfing after linking libfuse.so
+
 2014-11-06 Release 0.1.1
 - Fix missing export for TNS_ADMIN
 

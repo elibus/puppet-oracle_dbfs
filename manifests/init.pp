@@ -1,12 +1,50 @@
 # == Class: oracle_dbfs
 #
-# Full description of class oracle_dbfs here.
+# This module configure the Oracle DBFS as a Unix Service on RHEL 6 systems (should work on 7 in compatibility)
 #
 # === Parameters
 #
-# [*sample_parameter*]
-#   Explanation of what this parameter affects and what it defaults to.
+# [*user*]
+#   Oracle user
+# [*group*]
+#   Oracle group.
+# [*oracle_base*]
+#   Oracle base installation.
+# [*oracle_home*]
+#   oracle home.
+# [*cwallet*]
+#   Wallet file.
+# [*ewallet*]
+#   Wallet file.
+# [*tnsnames*]
+#   tnsnames.ora file content.
+# [*sqlnet*]
+#   sqlnet.ora file content.
+# [*user_allow_other*]
+#   configure "allow_other" in /etc/fuse.conf if true.
+# [*service_name*]
+#   service name for mounting the remote fs.
+# [*mounts*]
+#   Array of mount points and relative configuration.
 #
+# Sample usage:
+#      include oracle_dbfs {
+#        user        => 'oracle',
+#        group       => 'dba',
+#        oracle_base => '/usr/ora11g/app/oracle',
+#        oracle_home => '/usr/ora11g/app/oracle/product/11.2.0.4/client',
+#        ewallet     => 'ewallet content',
+#        cwallet     => 'cwallet content',
+#        tnsnames    => 'tnsnames content',
+#        sqlnet      => 'sqlnet content',
+#        mounts      => {
+#          '/mnt/dbfs' => {
+#            'conn_string' => 'dbfs@DBFS',
+#            'mount_point' => '/mnt/dbfs',
+#          },
+#        }
+#      }
+
 class oracle_dbfs (
   $cwallet = $oracle_dbfs::params::cwallet,
   $ewallet = $oracle_dbfs::params::ewallet,

@@ -4,6 +4,7 @@ PATH=$ORACLE_HOME/bin:/usr/X11R6/bin:/usr/local/bin:/bin:/usr/bin:/usr/sbin:/sbi
 CDPATH=.:$ORACLE_BASE/admin:$ORACLE_HOME:$ORACLE_HOME/network/admin
 LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib64:/lib:/usr/lib:/usr/lib64
 
+ORADB_USER=<%= @user %>
 ORA_DBFS_PROG="$ORACLE_HOME/bin/dbfs_client"
 TNS_ADMIN="<%= @config_dir %>/admin"
 
